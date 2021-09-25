@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 const connectDB = async () => {
   try {
     const conn = await mongoose.connect(
-      'mongodb://localhost:27017/zilom-website',
+      'mongodb+srv://hamidmehmood2117:hamidmehmood2117@cluster0.est76.mongodb.net/zilom-database?retryWrites=true&w=majority',
 
       {
         useNewUrlParser: true,
