@@ -85,7 +85,7 @@ const courseSchema = mongoose.Schema(
     duration: { type: Number, required: true, default: 0 },
     maxStudent: { type: Number, required: true, default: 0 },
     price: { type: Number, required: true, default: 0 },
-    image: { type: String, required: true, default: './teacher.jpg' },
+    image: { type: String, required: true, default: '/teacher.jpg' },
     learn: [learnSchema],
     requirement: [requirementSchema],
     courseData: [courseDataSchema],

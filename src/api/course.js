@@ -4,6 +4,7 @@ import asyncHandler from 'express-async-handler'
 import { protect, admin } from './../auth/authMiddleware.js'
 // import ClassModel from '../models/classesModel.js'
 import UserModel from '../models/userModel.js'
+import { upload } from '../auth/uploadMiddleware.js'
 
 const router = express.Router()
 
@@ -154,5 +155,13 @@ router.delete(
     }
   })
 )
+
+//*@desc To upload an image
+//*@Api PUT /api/v1/nationalidimg/:id   (User id )
+//*@Access private (no token needed)
+
+router.post('/upload', upload.single('image'), (req, res) => {
+  res.send(`/${req.file.path}`)
+})
 
 export default router

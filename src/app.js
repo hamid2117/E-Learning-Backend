@@ -6,12 +6,18 @@ import bodyParser from 'body-parser'
 import './models/userModel.js'
 import dotenv from 'dotenv'
 import connectDB from './config/db.js'
+import path from 'path'
 dotenv.config()
 connectDB()
 
 import middlewares from './middlewares.js'
 import api from './api/index.js'
 const app = express()
+
+//for image uploads
+const __dirname = path.resolve()
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
+//end
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
