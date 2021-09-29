@@ -3,6 +3,7 @@ const router = express.Router()
 import asyncHandler from 'express-async-handler'
 import Order from '../models/orderModel.js'
 import { protect } from '../auth/authMiddleware.js'
+import stripe from 'stripe'
 
 //*@desc Fetch order for each user
 //*@Api GET /api/v1/order/myorder
@@ -57,10 +58,7 @@ router.get(
   '/order/:id',
   protect,
   asyncHandler(async (req, res) => {
-    const order = await Order.findById(req.params.id).populate(
-      'user',
-      'name email'
-    ) //to get email...
+    const order = await Order.findById(req.params.id).populate('user', 'email') //to get email...
     if (order) {
       res.json(order)
     } else {
@@ -97,8 +95,34 @@ router.put(
   })
 )
 
-router.get('/config/paypal', (req, res) => {
-  res.send(process.env.PAYPAL_CLIENT_ID)
-})
+// const processPayment = asyncHandler(async (req, res, next) => {})
+
+router.post(
+  '/payment/process',
+  protect,
+  asyncHandler(async (req, res) => {
+    const stripee = new stripe(
+      'sk_test_51JeelRHccMwtVSnhVu2rd6SdLOVFJljeIxuPerltqVidIl3s2WPhLKjfaJXSuKa9y8LnWYhq9C4p7H4H2tmyjV9z004H0yuh5p'
+    )
+    const paymentIntent = await stripee.paymentIntents.create({
+      amount: req.body.total_amount,
+      currency: 'usd',
+      metadata: { integration_check: 'accept_a_payment' },
+    })
+    res.status(200).json({
+      clientSecret: paymentIntent.client_secret,
+    })
+  })
+)
+router.get(
+  '/stripekey',
+  protect,
+  asyncHandler(async (req, res) => {
+    res.status(200).json({
+      apiKey:
+        'pk_test_51JeelRHccMwtVSnhoI75VrnYVltM482LwOoJutShgdEF1DKfS8WjrCf4aRwP8KfCNXP6htRYjO7ktJMIfUSIEFiw00UIP4KzEf',
+    })
+  })
+)
 
 export default router
