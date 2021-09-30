@@ -40,6 +40,7 @@ const materialSchema = mongoose.Schema(
 )
 const videoSchema = mongoose.Schema(
   {
+    _id: { type: String },
     heading: { type: String },
     time: { type: String },
     link: { type: String },

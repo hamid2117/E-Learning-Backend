@@ -2,6 +2,7 @@ import express from 'express'
 const router = express.Router()
 import asyncHandler from 'express-async-handler'
 import Order from '../models/orderModel.js'
+import Course from '../models/courseModel.js'
 import { protect } from '../auth/authMiddleware.js'
 import stripe from 'stripe'
 
@@ -73,18 +74,12 @@ router.get(
 
 router.put(
   '/order/:id/pay',
-  protect,
   asyncHandler(async (req, res) => {
     const order = await Order.findById(req.params.id)
     if (order) {
       order.isPaid = true
       order.paidAt = Date.now()
-      order.paymentResult = {
-        id: req.body.id,
-        status: req.body.status,
-        update_time: req.body.update_time,
-        email_address: req.body.payer.email_address,
-      }
+
       const updatedOrder = await order.save()
 
       res.json(updatedOrder)
@@ -122,6 +117,24 @@ router.get(
       apiKey:
         'pk_test_51JeelRHccMwtVSnhoI75VrnYVltM482LwOoJutShgdEF1DKfS8WjrCf4aRwP8KfCNXP6htRYjO7ktJMIfUSIEFiw00UIP4KzEf',
     })
+  })
+)
+router.get(
+  '/video/:id',
+  protect,
+  asyncHandler(async (req, res) => {
+    const order = await Order.findById(req.params.id)
+    if (order.isPaid) {
+      const data = order.cart[0].id
+      const course = await Course.findById(data)
+      console.log(course)
+      res
+        .status(200)
+        .json({ courseData: course.courseData, heading: course.heading })
+    } else {
+      res.status(378).json('not paid')
+    }
+    res.status(500).json('somthing wronge')
   })
 )
 
