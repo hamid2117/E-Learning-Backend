@@ -6,10 +6,11 @@ import Course from '../models/courseModel.js'
 import { protect } from '../auth/authMiddleware.js'
 import stripe from 'stripe'
 
-//*@desc Fetch order for each user
-//*@Api GET /api/v1/order/myorder
-//*@Access private
-
+/**
+@desc Fetch order for each user
+@Api GET /api/v1/order/myorder
+@Access private
+*/
 router.get(
   '/myorders',
   protect,
@@ -23,10 +24,11 @@ router.get(
   })
 )
 
-//*@desc save orders in database
-//*@Api POST /api/v1/orders
-//*@Access Private
-
+/**
+@desc save orders in database
+@Api POST /api/v1/orders
+@Access Private
+*/
 router.post(
   '/orders',
   protect,
@@ -51,9 +53,11 @@ router.post(
   })
 )
 
-//*@desc Fetch each order
-//*@Api GET /api/v1/order/:id
-//*@Access private
+/**
+@desc Fetch each order
+@Api GET /api/v1/order/:id
+@Access private
+*/
 
 router.get(
   '/order/:id',
@@ -68,10 +72,11 @@ router.get(
   })
 )
 
-//*@desc update order
-//*@Api GET /api/v1/order/:id/pay
-//*@Access private
-
+/** 
+ @desc update order
+ @Api GET /api/v1/order/:id/pay
+ @Access private
+*/
 router.put(
   '/order/:id/pay',
   asyncHandler(async (req, res) => {
@@ -90,7 +95,11 @@ router.put(
   })
 )
 
-// const processPayment = asyncHandler(async (req, res, next) => {})
+/** 
+ @desc strip test api
+ @Api POST /api/v1/payment/process
+ @Access private
+*/
 
 router.post(
   '/payment/process',
