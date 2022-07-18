@@ -53,12 +53,12 @@ router.post(
   })
 )
 
+
 /**
 @desc Fetch each order
 @Api GET /api/v1/order/:id
 @Access private
 */
-
 router.get(
   '/order/:id',
   protect,
@@ -100,7 +100,6 @@ router.put(
  @Api POST /api/v1/payment/process
  @Access private
 */
-
 router.post(
   '/payment/process',
   protect,
@@ -118,6 +117,11 @@ router.post(
     })
   })
 )
+/** 
+ @desc  getingstripkey
+ @Api GET /stripekey
+ @Access private
+*/
 router.get(
   '/stripekey',
   protect,
@@ -128,6 +132,12 @@ router.get(
     })
   })
 )
+
+/** 
+ @desc  video
+ @Api GET /stripekey
+ @Access private
+*/
 router.get(
   '/video/:id',
   protect,
